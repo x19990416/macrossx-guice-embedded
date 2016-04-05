@@ -31,6 +31,13 @@ repositories {
 
 dependencies {
 	compile 'com.google.inject:guice:4.0'
+	compile 'com.google.inject.extensions:guice-servlet:4.0'
+	compile 'org.projectlombok:lombok:1.16.8'
+	compile 'org.eclipse.jetty:jetty-server:9.3.8.v20160314'
+	compile 'org.eclipse.jetty:jetty-webapp:9.3.8.v20160314'
+
+
+	
 }
 
 task wrapper(type: Wrapper) { gradleVersion = '2.3' }
