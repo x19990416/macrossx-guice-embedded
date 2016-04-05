@@ -1,2 +1,2 @@
 # macrossx-guice-embedded
-1.embedded tomcat8 with google guice.
+1.embedded jetty with google guice.
