@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin:'maven'
+apply plugin:'maven-publish'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+group='macrossx.guice.embedded'
+version='1.0'
+configurations.all {
+	// check for updates every build
+	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+war{
+	baseName = 'E-AI'
+	version='1.0'
+}
+
+task "create-dirs" << {
+   sourceSets*.java.srcDirs*.each { it.mkdirs() }
+   sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
+
+repositories {
+	mavenCentral()
+	//maven { url"http://180.166.28.123:8081/nexus/content/repositories/snapshots"}
+	//maven { url"http://180.166.28.123:8081/nexus/content/repositories/thirdparty/"}
+}
+
+dependencies {
+}
+
+task wrapper(type: Wrapper) { gradleVersion = '2.3' }
