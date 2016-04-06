@@ -19,20 +19,21 @@ package com.macrossx.embedded.jetty;
 import java.util.EventListener;
 
 import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
 import com.google.inject.PrivateModule;
 import com.macrossx.embedded.BootServer;
 import com.macrossx.embedded.ServletConfig;
 
-public class JettyPrivateModule extends PrivateModule	{
+public class JettyPrivateModule extends PrivateModule{
 	
 	@Override
 	protected void configure() {
-		bind(org.eclipse.jetty.server.Server.class).toInstance(new Server(8080));
+//		bind(org.eclipse.jetty.server.Server.class).toInstance(new Server(8080));
 		bind(Handler.class).to(ServletContextHandler.class);
 		bind(EventListener.class).to(ServletConfig.class);
+		bind(BootServer.class).to(JettyServer.class);
+		expose(BootServer.class);
 	}
 	
 

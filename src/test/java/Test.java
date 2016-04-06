@@ -1,9 +1,6 @@
-import com.google.inject.Binder;
 import com.google.inject.Guice;
-import com.google.inject.Module;
 import com.macrossx.embedded.BootServer;
 import com.macrossx.embedded.jetty.JettyPrivateModule;
-import com.macrossx.embedded.jetty.JettyServer;
 
 /**
  * Copyright (C) 2016 X-Forever.
@@ -23,13 +20,7 @@ import com.macrossx.embedded.jetty.JettyServer;
 
 public class Test {
 	public static void main(String...s){
-		BootServer server = Guice.createInjector(new Module(){
-
-			@Override
-			public void configure(Binder binder) {
-				binder.bind(BootServer.class).to(JettyServer.class);
-				
-			}},new JettyPrivateModule()).getInstance(BootServer.class);
+		BootServer server = Guice.createInjector(new JettyPrivateModule()).getInstance(BootServer.class);
 		server.run();
 	}
 
