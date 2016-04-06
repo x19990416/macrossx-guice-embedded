@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 
 public class TestStart extends TestCase{
 	@Test
-	public static void bootJetty(){
+	public void testBootJetty(){
 		BootServer server = Guice.createInjector(new Module(){
 			@Override
 			public void configure(Binder binder) {
