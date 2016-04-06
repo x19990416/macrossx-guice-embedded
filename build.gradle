@@ -31,6 +31,10 @@ dependencies {
 	compile 'org.projectlombok:lombok:1.16.8'
 	compile 'org.eclipse.jetty:jetty-server:9.3.8.v20160314'
 	compile 'org.eclipse.jetty:jetty-webapp:9.3.8.v20160314'
+	compile 'org.eclipse.jetty:jetty-servlet:9.3.8.v20160314'
+	compile 'junit:junit:4.12'
+	compile 'org.apache.tomcat.embed:tomcat-embed-core:9.0.0.M4'
+	
 
 
 	

@@ -15,29 +15,57 @@
  */
 package com.macrossx.embedded;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceServletContextListener;
-import com.macrossx.embedded.jetty.JettyModule;
+import com.google.inject.servlet.ServletModule;
 
+import lombok.extern.java.Log;
+@Log
 public class ServletConfig extends GuiceServletContextListener {
-	protected ServletContext servletContext;
-
-	@Override
-	public void contextInitialized(ServletContextEvent servletContextEvent) {
-		servletContext = servletContextEvent.getServletContext();
-		super.contextInitialized(servletContextEvent);
-	}
 
 	@Override
 	protected Injector getInjector() {
-//		log.info(String.format("%d", moduleContainer.get().size()));
-		Injector newInjector = Guice.createInjector(Stage.PRODUCTION, new JettyModule());
+		// log.info(String.format("%d", moduleContainer.get().size()));
+		log.info("getInjector()");
+		Injector newInjector = Guice.createInjector(Stage.PRODUCTION, new ServletModule() {
+
+			@Override
+			protected void configureServlets() {
+				bind(HelloWorldServlet.class);
+				serve("/my").with(HelloWorldServlet.class);
+			}
+		});
 		return newInjector;
 	}
 
+	@Singleton
+	@Log
+	public static class HelloWorldServlet extends HttpServlet {
+
+		private static final long serialVersionUID = -6169504697270124584L;
+
+		@Override
+		public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			log.info("HelloWorldServlet");
+
+			String t1 = req.getParameter("req");
+			PrintWriter writer = resp.getWriter();
+			t1 = (t1==null||t1.isEmpty())?"":t1;
+			writer.write("helloworld:\t"+t1);
+			
+			resp.getWriter().close();
+			resp.getWriter().flush();
+		}
+	}
 }

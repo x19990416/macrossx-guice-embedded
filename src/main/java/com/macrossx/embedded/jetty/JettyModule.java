@@ -25,11 +25,8 @@ import com.google.inject.AbstractModule;
 import com.macrossx.embedded.ServletConfig;
 
 public class JettyModule extends AbstractModule	{
-	
 	@Override
 	protected void configure() {
-//		bind(org.eclipse.jetty.server.Server.class).toInstance(new Server(8080));
-		bind(Handler.class).to(ServletContextHandler.class);
 		bind(EventListener.class).to(ServletConfig.class);
 	}
 	
