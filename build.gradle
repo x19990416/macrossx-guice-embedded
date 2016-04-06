@@ -1,10 +1,11 @@
 apply plugin: 'java'
-apply plugin: 'war'
 apply plugin:'maven'
 apply plugin:'maven-publish'
 
 sourceCompatibility = 1.8
+
 targetCompatibility = 1.8
+
 group='macrossx.guice.embedded'
 version='1.0'
 configurations.all {
@@ -12,11 +13,6 @@ configurations.all {
 	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-war{
-	baseName = 'E-AI'
-	version='1.0'
-}
 
 task "create-dirs" << {
    sourceSets*.java.srcDirs*.each { it.mkdirs() }

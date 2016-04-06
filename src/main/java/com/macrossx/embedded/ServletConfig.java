@@ -22,7 +22,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceServletContextListener;
-import com.macrossx.embedded.jetty.JettyPrivateModule;
+import com.macrossx.embedded.jetty.JettyModule;
 
 public class ServletConfig extends GuiceServletContextListener {
 	protected ServletContext servletContext;
@@ -36,7 +36,7 @@ public class ServletConfig extends GuiceServletContextListener {
 	@Override
 	protected Injector getInjector() {
 //		log.info(String.format("%d", moduleContainer.get().size()));
-		Injector newInjector = Guice.createInjector(Stage.PRODUCTION, new JettyPrivateModule());
+		Injector newInjector = Guice.createInjector(Stage.PRODUCTION, new JettyModule());
 		return newInjector;
 	}
 
