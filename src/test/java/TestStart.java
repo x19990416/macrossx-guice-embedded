@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.EventListener;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -6,18 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Test;
-
 import com.google.common.collect.Lists;
+import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.macrossx.embedded.BootServer;
-import com.macrossx.embedded.jetty.JettyModule;
+import com.macrossx.embedded.ServletConfig;
 import com.macrossx.embedded.jetty.JettyServer;
 
 import junit.framework.TestCase;
@@ -45,15 +43,23 @@ public class TestStart extends TestCase {
 			@Override
 			public void configure(Binder binder) {
 				binder.bind(BootServer.class).to(JettyServer.class);
+				binder.bind(EventListener.class).toInstance(new ServletConfig(){
+
+					@Override
+					public List<AbstractModule> provider() {
+						// TODO Auto-generated method stub
+						return Lists.newArrayList(new HelloWorldServletModule());
+					}});
 			}
-		}, new JettyModule()).getInstance(BootServer.class);
+		}).getInstance(BootServer.class);
 		server.run();
 	}
 
 	public static class HelloWorldServletModule extends ServletModule {
 		@Override
 		protected void configureServlets() {
-		    serve("/my/*").with(HelloWorldServlet.class);
+			bind(HelloWorldServlet.class);
+		    serve("/my").with(HelloWorldServlet.class);
 		}
 	}
 
@@ -65,7 +71,7 @@ public class TestStart extends TestCase {
 		@Override
 		public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			String t1 = req.getParameter("req");
-			resp.getWriter().write("helloworld:" + t1 == null ? "" : t1);
+			resp.getWriter().write("helloworld:" + (t1 == null ? "" : t1));
 			resp.getWriter().close();
 			resp.getWriter().flush();
 		}
