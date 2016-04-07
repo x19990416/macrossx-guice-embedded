@@ -18,9 +18,6 @@ package com.macrossx.embedded.jetty;
 
 import java.util.EventListener;
 
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-
 import com.google.inject.AbstractModule;
 import com.macrossx.embedded.ServletConfig;
 
