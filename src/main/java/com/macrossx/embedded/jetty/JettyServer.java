@@ -43,8 +43,16 @@ public class JettyServer implements BootServer {
 	@Override
 	public void run() throws EmbeddedServerException {
 		try {
-			new XmlConfiguration(new FileInputStream(this.getClass().getResource("/").getPath() + "jetty/jetty.xml"))
-					.configure(server);
+			
+
+			if (this.getClass().getResource("/")!=null) {
+				log.info("load resouce file [jetty/jetty.xml]");
+				new XmlConfiguration(new FileInputStream(this.getClass().getResource("/").getPath()+"jetty/jetty.xml")).configure(server);
+			} else {
+				log.info("load jar resouce file [jetty/jetty.xml]");
+				new XmlConfiguration(this.getClass().getResourceAsStream("/jetty/jetty.xml")).configure(server);
+			}
+
 			ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/",
 					ServletContextHandler.SESSIONS);
 			servletContextHandler.addFilter(com.google.inject.servlet.GuiceFilter.class, "/*",
@@ -57,6 +65,9 @@ public class JettyServer implements BootServer {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static void main(String... s) {
 	}
 
 }
