@@ -17,9 +17,9 @@ package com.macrossx.embedded;
 
 import java.util.List;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceServletContextListener;
 
@@ -35,5 +35,5 @@ public abstract class ServletConfig extends GuiceServletContextListener {
 		return newInjector;
 	}
 	
-	public abstract List<AbstractModule> provider();
+	public abstract List<Module> provider();
 }

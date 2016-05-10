@@ -16,7 +16,6 @@
 
 package com.macrossx.embedded.jetty;
 
-import java.io.FileInputStream;
 import java.util.EnumSet;
 import java.util.EventListener;
 
@@ -43,31 +42,19 @@ public class JettyServer implements BootServer {
 	@Override
 	public void run() throws EmbeddedServerException {
 		try {
-			
-
-			if (this.getClass().getResource("/")!=null) {
-				log.info("load resouce file [jetty/jetty.xml]");
-				new XmlConfiguration(new FileInputStream(this.getClass().getResource("/").getPath()+"jetty/jetty.xml")).configure(server);
-			} else {
-				log.info("load jar resouce file [jetty/jetty.xml]");
-				new XmlConfiguration(this.getClass().getResourceAsStream("/jetty/jetty.xml")).configure(server);
-			}
-
+			this.init();
+			new XmlConfiguration(this.getClass().getResourceAsStream("/jetty/jetty.xml")).configure(server);
 			ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/",
 					ServletContextHandler.SESSIONS);
 			servletContextHandler.addFilter(com.google.inject.servlet.GuiceFilter.class, "/*",
 					EnumSet.allOf(DispatcherType.class));
 			servletContextHandler.addEventListener(eventListener);
+			
 			log.info("listen on port:" + ((ServerConnector) server.getConnectors()[0]).getPort());
 			server.start();
 			server.join();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-	}
-
-	public static void main(String... s) {
-	}
-
+	}	
 }
